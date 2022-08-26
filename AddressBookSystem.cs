@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -411,6 +412,29 @@ namespace AddressBookSystem1
                 Console.WriteLine(item.ToString());
             }
             sr.Close();
+        }
+        //UC15 Write the addressBook with person contact as JSON file
+        public void WriteJsonFile()
+        {
+            string jsonPath = @"C:\Users\admin1\BridgeLab\c sharp\AddressBookSystem1\AddressBookSystem1\AddressBooks.json";
+            foreach (var item in addressBookDict.Values)
+            {
+                string jsonData = JsonConvert.SerializeObject(item.contactList);
+                File.WriteAllText(jsonPath, jsonData);
+            }
+
+            Console.WriteLine("Write the addressBook with person contact as JSON file is Successfull");
+        }
+        public void ReadJsonFile()
+        {
+            string jsonPath = @"C:\Users\admin1\BridgeLab\c sharp\AddressBookSystem1\AddressBookSystem1\AddressBooks.json";
+            string jsonData = File.ReadAllText(jsonPath);
+            var jsonResult = JsonConvert.DeserializeObject<List<Contact>>(jsonData).ToList();
+            Console.WriteLine("Reading from Json file");
+            foreach (var item in jsonResult)
+            {
+                Console.WriteLine(item.ToString());
+            }
         }
     }
 }
